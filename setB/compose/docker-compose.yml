@@ -1,0 +1,28 @@
+
+services:
+  api:
+    image: areebakhan49/mid-svc:49296
+    ports:
+      - "9096:5000"
+    environment:
+      STUDENT: "49296"
+      REDIS_HOST: store
+    networks:
+      - backend-49296
+    depends_on:
+      - store
+
+  store:
+    image: redis:alpine
+    command: redis-server --appendonly yes --dir /data
+    volumes:
+      - store-49296:/data
+    networks:
+      - backend-49296
+
+networks:
+  backend-49296:
+    driver: bridge
+
+volumes:
+  store-49296:
